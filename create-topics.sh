@@ -1,58 +1,51 @@
-//docker commands to crete topics 
+#!/usr/bin/env bash
+set -e
 
-
-//Main topic
+echo "Creating Kafka topics..."
 
 docker compose exec kafka kafka-topics \
   --create \
+  --if-not-exists \
   --topic webhook-trigger \
   --bootstrap-server localhost:9092 \
   --partitions 1 \
   --replication-factor 1
 
-
-//Retry after 5 minutes
-
 docker compose exec kafka kafka-topics \
   --create \
+  --if-not-exists \
   --topic webhook-trigger-retry-5m \
   --bootstrap-server localhost:9092 \
   --partitions 1 \
   --replication-factor 1
 
-
-//Retry after 8 hours
-
 docker compose exec kafka kafka-topics \
   --create \
+  --if-not-exists \
   --topic webhook-trigger-retry-8h \
   --bootstrap-server localhost:9092 \
   --partitions 1 \
   --replication-factor 1
 
-
-//Retry after 12 hours
-
 docker compose exec kafka kafka-topics \
   --create \
+  --if-not-exists \
   --topic webhook-trigger-retry-12h \
   --bootstrap-server localhost:9092 \
   --partitions 1 \
   --replication-factor 1
 
-
-//Dead Letter Queue (DLQ)
-
 docker compose exec kafka kafka-topics \
   --create \
+  --if-not-exists \
   --topic webhook-trigger-dlq \
   --bootstrap-server localhost:9092 \
   --partitions 1 \
   --replication-factor 1
 
-
-//Verify all topics exist
-
+echo "Verifying topics..."
 docker compose exec kafka kafka-topics \
   --list \
   --bootstrap-server localhost:9092
+
+echo "Done."
